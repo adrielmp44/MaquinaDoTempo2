@@ -10,7 +10,7 @@ export default function App() {
   const [fotoAtual, setFotoAtual] = useState(1);
   const totalFotos = 10;
 
-  // 👇 NOVOS ESTADOS GLOBAIS DE CONFIGURAÇÃO 👇
+  // ESTADOS GLOBAIS DE CONFIGURAÇÃO
   const [giroscopioAtivo, setGiroscopioAtivo] = useState(true);
   const [somAmbienteAtivo, setSomAmbienteAtivo] = useState(false);
 
@@ -61,6 +61,9 @@ export default function App() {
           onVoltarMenu={() => setTelaAtual('menu')} 
           giroscopioAtivo={giroscopioAtivo}
           setGiroscopioAtivo={setGiroscopioAtivo}
+          somAmbienteAtivo={somAmbienteAtivo}        
+          setSomAmbienteAtivo={setSomAmbienteAtivo}   
+          onMudarTela={setTelaAtual}                 
         />
       )}
     </div>
