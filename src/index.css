@@ -1,0 +1,25 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #fcf8f2;
+  color: #2b1810;
+  font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  overflow: hidden;
+}
+
+/* Scrollbar personalizada em tons de argila */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: rgba(212, 93, 52, 0.05);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb {
+  background: #d45d34;
+  border-radius: 4px;
+}

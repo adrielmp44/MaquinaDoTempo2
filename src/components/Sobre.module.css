@@ -1,0 +1,41 @@
+.container {
+  text-align: center;
+  background: #ffffff;
+  padding: 40px;
+  border-radius: 20px;
+  border: 2px solid #2b1810;
+  box-shadow: 0 12px 24px rgba(43, 24, 16, 0.08);
+  animation: surgindo 0.4s ease forwards;
+}
+
+.label {
+  font-size: 0.9rem;
+  color: #d45d34;
+  text-transform: uppercase;
+  letra-spacing: 2px;
+  font-weight: 700;
+}
+
+.username {
+  font-size: 2.5rem;
+  color: #2b1810;
+  font-weight: 900;
+  margin: 15px 0 35px 0;
+  letter-spacing: 1px;
+}
+
+.backButton {
+  padding: 12px 30px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #fff;
+  background: #2b1810;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.backButton:hover {
+  background: #402519;
+}

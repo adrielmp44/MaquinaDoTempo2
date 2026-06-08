@@ -1,0 +1,10 @@
+.appContainer {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justifyContent: center;
+  align-items: center;
+  position: relative;
+  /* Degradê suave simulando o entardecer do sertão */
+  background: radial-gradient(circle at center, #fcf8f2 0%, #f7ebd9 100%);
+}

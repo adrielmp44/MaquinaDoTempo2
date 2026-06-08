@@ -1,0 +1,73 @@
+.container {
+  text-align: center;
+  animation: surgindo 0.6s cubic-bezier(0.1, 0.8, 0.2, 1) forwards;
+}
+
+.title {
+  font-size: 3.5rem;
+  font-weight: 900;
+  letter-spacing: 3px;
+  margin-bottom: 5px;
+  color: #2b1810;
+  text-transform: uppercase;
+}
+
+.subtitle {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #d45d34;
+  margin-bottom: 45px;
+  letter-spacing: 2px;
+}
+
+.buttonContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  width: 260px;
+  margin: 0 auto;
+}
+
+.button {
+  padding: 16px 20px;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #2b1810;
+  background: #ffffff;
+  border: 2px solid #2b1810;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  letter-spacing: 0.5px;
+  box-shadow: 0 4px 0 #2b1810; /* Efeito de botão "blocado" estilizado */
+}
+
+.primaryButton {
+  composes: button;
+  background: #d45d34;
+  color: #ffffff;
+  border: 2px solid #2b1810;
+  box-shadow: 0 4px 0 #2b1810;
+}
+
+.primaryButton:hover {
+  background: #e66e45;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 0 #2b1810;
+}
+
+.button:hover:not(.primaryButton) {
+  background: #f4b251;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 0 #2b1810;
+}
+
+.button:active, .primaryButton:active {
+  transform: translateY(2px);
+  box-shadow: 0 2px 0 #2b1810;
+}
+
+@keyframes surgindo {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
