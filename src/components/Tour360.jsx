@@ -10,7 +10,7 @@ export default function Tour360({ fotoAtual, totalFotos, onNavegar, onVoltarMenu
 
   // Inicializa a câmera traseira do celular
   useEffect(() => {
-    let streamAtual = null ;
+    let streamAtual = null;
 
     async function iniciarCamera() {
       try {
@@ -60,6 +60,9 @@ export default function Tour360({ fotoAtual, totalFotos, onNavegar, onVoltarMenu
     };
   }, []);
 
+  // 👇 O PULO DO GATO ESTÁ AQUI: O Vite resolve o caminho certinho para o PC e para o GitHub
+  const caminhoFoto = `${import.meta.env.BASE_URL}fotos360/foto${fotoAtual}.webp`;
+
   return (
     <div className={styles.tourContainer}>
       
@@ -72,7 +75,7 @@ export default function Tour360({ fotoAtual, totalFotos, onNavegar, onVoltarMenu
         className={styles.videoBackground}
       />
 
-      {/* Cenário do A-Frame configurado para transparência (renderer="colorManagement: true; alpha: true") */}
+      {/* Cenário do A-Frame configurado para transparência */}
       {/* @ts-ignore */}
       <a-scene 
         embedded 
@@ -82,12 +85,12 @@ export default function Tour360({ fotoAtual, totalFotos, onNavegar, onVoltarMenu
       >
         {/* @ts-ignore */}
         <a-sky 
-          src={`/fotos360/foto${fotoAtual}.webp`} 
+          src={caminhoFoto} 
           rotation="0 -90 0"
           material={`opacity: ${opacidade}; transparent: true`}
         ></a-sky>
 
-        {/* Câmera da cena com controle dinâmico do giroscópio (look-controls) */}
+        {/* Câmera da cena com controle dinâmico do giroscópio */}
         {/* @ts-ignore */}
         <a-entity 
           camera 
