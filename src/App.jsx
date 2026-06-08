@@ -10,6 +10,10 @@ export default function App() {
   const [fotoAtual, setFotoAtual] = useState(1);
   const totalFotos = 10;
 
+  // 👇 NOVOS ESTADOS GLOBAIS DE CONFIGURAÇÃO 👇
+  const [giroscopioAtivo, setGiroscopioAtivo] = useState(true);
+  const [somAmbienteAtivo, setSomAmbienteAtivo] = useState(false);
+
   const navegarFoto = (direcao) => {
     if (direcao === 'proxima' && fotoAtual < totalFotos) {
       setFotoAtual(fotoAtual + 1);
@@ -31,7 +35,14 @@ export default function App() {
   return (
     <div className={styles.appContainer}>
       {telaAtual === 'menu' && (
-        <MenuPrincipal onMudarTela={setTelaAtual} onIniciarTour={iniciarTourDoZero} />
+        <MenuPrincipal 
+          onMudarTela={setTelaAtual} 
+          onIniciarTour={iniciarTourDoZero} 
+          giroscopioAtivo={giroscopioAtivo}
+          setGiroscopioAtivo={setGiroscopioAtivo}
+          somAmbienteAtivo={somAmbienteAtivo}
+          setSomAmbienteAtivo={setSomAmbienteAtivo}
+        />
       )}
 
       {telaAtual === 'mapa' && (
@@ -43,7 +54,14 @@ export default function App() {
       )}
 
       {telaAtual === 'tour' && (
-        <Tour360 fotoAtual={fotoAtual} totalFotos={totalFotos} onNavegar={navegarFoto} onVoltarMenu={() => setTelaAtual('menu')} />
+        <Tour360 
+          fotoAtual={fotoAtual} 
+          totalFotos={totalFotos} 
+          onNavegar={navegarFoto} 
+          onVoltarMenu={() => setTelaAtual('menu')} 
+          giroscopioAtivo={giroscopioAtivo}
+          setGiroscopioAtivo={setGiroscopioAtivo}
+        />
       )}
     </div>
   );

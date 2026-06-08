@@ -3,13 +3,14 @@
   height: 100vh;
   position: relative;
   background-color: #000;
+  font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  overflow: hidden;
 }
 
 /* O feed de vídeo fica fixo cobrindo toda a tela ao fundo */
 .videoBackground {
   position: absolute;
-  top: 0;
-  left: 0;
+  inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -19,8 +20,7 @@
 /* A cena 3D fica sobreposta ao vídeo, com fundo transparente */
 .scene3d {
   position: absolute;
-  top: 0;
-  left: 0;
+  inset: 0;
   width: 100%;
   height: 100%;
   z-index: 2;
@@ -30,118 +30,106 @@
 /* Agrupador dos botões superiores */
 .topControls {
   position: absolute;
-  top: 30px;
-  left: 20px;
-  right: 20px;
+  top: 24px;
+  left: 16px;
+  right: 16px;
   display: flex;
-  justifyContent: space-between;
+  justify-content: space-between;
   align-items: center;
   z-index: 10;
 }
 
-.homeButton {
-  padding: 12px 20px;
-  font-size: 0.85rem;
-  font-weight: 700;
-  cursor: pointer;
-  background: rgba(252, 248, 242, 0.9);
-  color: #2b1810;
-  border: 2px solid #2b1810;
-  border-radius: 12px;
+/* Estilo padrão de botão de vidro translúcido */
+.glassButton {
   display: flex;
+  justify-content: center;
   align-items: center;
   gap: 8px;
-  box-shadow: 0 4px 0 #2b1810;
-  transition: all 0.2s;
-}
-
-.homeButton:hover {
-  background: #d45d34;
-  color: #ffffff;
-}
-
-.utilityButton {
-  padding: 12px 16px;
+  height: 44px;
+  padding: 0 16px;
+  background: rgba(10, 10, 10, 0.4);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 30px;
+  color: #fafafa;
   font-size: 0.85rem;
-  font-weight: 700;
+  font-weight: 600;
   cursor: pointer;
-  background: rgba(43, 24, 16, 0.85);
-  border: 2px solid #2b1810;
-  border-radius: 12px;
-  color: #fff;
-  box-shadow: 0 4px 0 #2b1810;
   transition: all 0.2s;
 }
 
-.activeButton {
-  background: #f4b251;
-  color: #2b1810;
+.glassButton:hover {
+  background: rgba(255, 255, 255, 0.15);
 }
 
-/* Painel que agrupa navegação e opacidade na parte de baixo */
+/* Estado ativo (ex: Giroscópio ligado) */
+.glassButton.active {
+  background: #fafafa;
+  color: #0a0a0a;
+}
+
+/* Painel inferior adaptado para mobile (ocupa a largura com margens de 16px) */
 .bottomPanel {
   position: absolute;
-  bottom: 30px;
-  left: 50%;
-  transform: translateX(-50%);
+  bottom: 24px;
+  left: 16px;
+  right: 16px;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 15px;
+  gap: 12px;
   z-index: 10;
-  width: 90%;
-  max-width: 400px;
 }
 
 /* Container do Slider de Transparência */
 .sliderContainer {
   display: flex;
   align-items: center;
-  justifyContent: space-between;
-  gap: 10px;
-  background: rgba(43, 24, 16, 0.9);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  padding: 10px 18px;
+  justify-content: space-between;
+  gap: 12px;
+  background: rgba(10, 10, 10, 0.6);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 12px 16px;
   border-radius: 20px;
   width: 100%;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.4);
-}
-
-.sliderLabel {
-  color: #fffcf9;
-  font-size: 0.8rem;
-  font-weight: 700;
-  white-space: nowrap;
 }
 
 .slider {
   flex-grow: 1;
-  accent-color: #f4b251; /* Cor do controle deslizante casando com o tema quente */
+  accent-color: #fafafa;
   cursor: pointer;
 }
 
+/* Controles de Navegação */
 .uiOverlay {
   display: flex;
   align-items: center;
-  justifyContent: space-between;
-  background: rgba(43, 24, 16, 0.9);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  padding: 10px 16px;
+  justify-content: space-between;
+  background: rgba(10, 10, 10, 0.6);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 8px 12px;
   border-radius: 30px;
   width: 100%;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
 }
 
 .navButton {
-  padding: 8px 16px;
+  padding: 10px 16px;
   font-size: 0.85rem;
-  font-weight: 800;
+  font-weight: 600;
   cursor: pointer;
-  background: #f4b251;
-  color: #2b1810;
+  background: rgba(255, 255, 255, 0.1);
+  color: #fafafa;
   border: none;
   border-radius: 20px;
   transition: all 0.2s ease;
+}
+
+.navButton:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.2);
 }
 
 .navButton:disabled {
@@ -150,9 +138,9 @@
 }
 
 .counter {
-  font-size: 0.9rem;
-  font-weight: 700;
-  color: #fffcf9;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #fafafa;
   text-align: center;
 }
 
@@ -161,11 +149,14 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background: rgba(0,0,0,0.8);
+  background: rgba(10, 10, 10, 0.8);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   color: #fff;
-  padding: 15px 25px;
-  border-radius: 8px;
-  font-weight: bold;
+  padding: 16px 24px;
+  border-radius: 16px;
+  font-size: 0.9rem;
+  font-weight: 600;
   z-index: 0;
   pointer-events: none;
 }

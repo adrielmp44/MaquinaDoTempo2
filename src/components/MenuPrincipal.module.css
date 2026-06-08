@@ -1,73 +1,309 @@
-.container {
-  text-align: center;
-  animation: surgindo 0.6s cubic-bezier(0.1, 0.8, 0.2, 1) forwards;
+.wrapper {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  background-color: #000; /* Fundo preto puro para carregar mais rápido */
+  color: #fafafa;
+  overflow: hidden;
+  font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+}
+
+/* 👇 NOVO CONTAINER PARA A CENA A-FRAME COM BLUR 👇 */
+.aframeBackgroundContainer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  /* 👇 AQUI ESTÁ O DESFOQUE (BLUR) 👇 */
+  filter: blur(12px); 
+  /* Leve zoom para o blur não criar bordas brancas/transparentes */
+  transform: scale(1.05); 
+}
+
+/* Garante que o A-Frame ocupe todo o espaço */
+.scene3d {
+  width: 100%;
+  height: 100%;
+}
+
+/* Sombras para dar leitura aos textos */
+.gradientTop {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at center, transparent 30%, rgba(0,0,0,0.5) 100%);
+  z-index: 1;
+  pointer-events: none; /* Garante que os cliques passem */
+}
+
+.gradientBottom {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.5) 0%, transparent 40%, rgba(0,0,0,0.95) 100%);
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* Topo (Logo e Menu) */
+.topBar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 10;
+}
+
+.glassBadge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(10, 10, 10, 0.4);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 8px 16px;
+  border-radius: 30px;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.iconButton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 44px;
+  height: 44px;
+  background: rgba(10, 10, 10, 0.4);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  color: #fff;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.iconButton:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* Modal de Configurações */
+.settingsCard {
+  position: absolute;
+  top: 85px;
+  right: 24px;
+  width: 260px;
+  background: rgba(15, 15, 15, 0.6);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  z-index: 20;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+  animation: fadeIn 0.2s ease-out;
+}
+
+.settingsHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.settingsItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(40, 40, 40, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  padding: 12px 16px;
+  border-radius: 12px;
+}
+
+.settingsLabel {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+/* Ícone central pulsante */
+.centerPulse {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.pulseRing {
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: pulseAnim 2s infinite cubic-bezier(0.4, 0, 0.6, 1);
+}
+
+.pulseCore {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+/* Conteúdo Inferior (Textos e Botões) */
+.bottomContent {
+  position: absolute;
+  bottom: 110px;
+  left: 0;
+  right: 0;
+  padding: 0 32px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  z-index: 10;
+}
+
+.locationBadge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(10, 10, 10, 0.4);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  color: #a1a1a1;
 }
 
 .title {
-  font-size: 3.5rem;
-  font-weight: 900;
-  letter-spacing: 3px;
-  margin-bottom: 5px;
-  color: #2b1810;
-  text-transform: uppercase;
+  font-size: 2.2rem;
+  font-weight: 800;
+  text-align: center;
+  line-height: 1.1;
+  letter-spacing: -0.5px;
 }
 
 .subtitle {
-  font-size: 1.1rem;
-  font-weight: 700;
-  color: #d45d34;
-  margin-bottom: 45px;
-  letter-spacing: 2px;
+  font-size: 0.9rem;
+  color: #a1a1a1;
+  text-align: center;
+  max-width: 280px;
+  line-height: 1.5;
 }
 
-.buttonContainer {
+.actionButtons {
   display: flex;
   flex-direction: column;
-  gap: 15px;
-  width: 260px;
-  margin: 0 auto;
+  gap: 10px;
+  width: 100%;
+  max-width: 300px;
 }
 
-.button {
-  padding: 16px 20px;
-  font-size: 1rem;
+.btnPrimary {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  height: 48px;
+  background-color: #e5e5e5;
+  color: #171717;
   font-weight: 700;
-  color: #2b1810;
-  background: #ffffff;
-  border: 2px solid #2b1810;
-  border-radius: 12px;
+  font-size: 0.95rem;
+  border: none;
+  border-radius: 30px;
   cursor: pointer;
-  transition: all 0.25s ease;
-  letter-spacing: 0.5px;
-  box-shadow: 0 4px 0 #2b1810; /* Efeito de botão "blocado" estilizado */
+  transition: transform 0.2s;
 }
 
-.primaryButton {
-  composes: button;
-  background: #d45d34;
-  color: #ffffff;
-  border: 2px solid #2b1810;
-  box-shadow: 0 4px 0 #2b1810;
+.btnPrimary:active { transform: scale(0.97); }
+
+.btnRow {
+  display: flex;
+  gap: 10px;
 }
 
-.primaryButton:hover {
-  background: #e66e45;
-  transform: translateY(-2px);
-  box-shadow: 0 6px 0 #2b1810;
+.btnSecondary {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  height: 48px;
+  background: rgba(10, 10, 10, 0.4);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #fafafa;
+  font-weight: 500;
+  font-size: 0.9rem;
+  border-radius: 30px;
+  cursor: pointer;
 }
 
-.button:hover:not(.primaryButton) {
-  background: #f4b251;
-  transform: translateY(-2px);
-  box-shadow: 0 6px 0 #2b1810;
+/* Barra de Navegação Base */
+.bottomNav {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(10, 10, 10, 0.8);
+  backdrop-filter: blur(20px);
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  display: flex;
+  justify-content: space-around;
+  padding: 12px 16px 24px 16px;
+  z-index: 20;
 }
 
-.button:active, .primaryButton:active {
-  transform: translateY(2px);
-  box-shadow: 0 2px 0 #2b1810;
+.navItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  background: transparent;
+  border: none;
+  color: #a1a1a1;
+  font-size: 0.75rem;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 8px 16px;
+  border-radius: 12px;
+  transition: color 0.2s;
 }
 
-@keyframes surgindo {
-  from { opacity: 0; transform: scale(0.95); }
-  to { opacity: 1; transform: scale(1); }
+.navItem.active {
+  color: #fafafa;
+}
+
+@keyframes pulseAnim {
+  0%, 100% { opacity: 1; }
+  50% { opacity: .5; }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
 }
