@@ -1,0 +1,127 @@
+/* MenuConfiguracoes.module.css */
+.settingsCard {
+  position: absolute;
+  top: 85px;
+  right: 24px;
+  width: 270px;
+  background: rgba(15, 15, 15, 0.65);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 18px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  z-index: 100;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+  animation: fadeIn 0.2s ease-out;
+}
+
+.settingsHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.settingsGroup {
+  background: rgba(35, 35, 35, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  padding: 12px;
+  border-radius: 14px;
+}
+
+.settingsRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+}
+
+.settingsLabel {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.settingsText {
+  display: flex;
+  flex-direction: column;
+}
+
+.settingsTitle {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #fff;
+}
+
+.settingsSubtitle {
+  font-size: 0.7rem;
+  color: #a1a1a1;
+}
+
+.volumeLabels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.75rem;
+  color: #a1a1a1;
+  margin-bottom: 4px;
+}
+
+.settingsButtons {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.btnAction {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  height: 38px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  color: #fafafa;
+  font-weight: 500;
+  font-size: 0.8rem;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.btnAction:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.btnDisabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.slider {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 4px;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.2);
+  outline: none;
+}
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #fff;
+  cursor: pointer;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}

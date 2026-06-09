@@ -83,6 +83,36 @@
   margin-bottom: 20px;
 }
 
+.description {
+  font-size: 0.95rem;
+  color: #d1d1d1;
+  text-align: center;
+  margin-bottom: 30px;
+  line-height: 1.6;
+}
+
+.formButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background-color: #e5e5e5;
+  color: #171717;
+  padding: 14px 28px;
+  border-radius: 30px;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 0.95rem;
+  transition: all 0.2s ease;
+  width: 100%;
+}
+
+.formButton:hover {
+  background-color: #fff;
+  transform: scale(1.03);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+}
+
 @keyframes fadeIn {
   from { opacity: 0; transform: scale(0.98); }
   to { opacity: 1; transform: scale(1); }

@@ -4,22 +4,19 @@
   box-sizing: border-box;
 }
 
-body {
-  background-color: #fcf8f2;
-  color: #2b1810;
+html, body {
+  width: 100%;
+  height: 100%;
+  background-color: #000; /* Fons fosc per evitar centelleigs */
+  color: #fafafa;
   font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
   overflow: hidden;
+  overscroll-behavior: none; /* Aquest és el truc màgic per arreglar els mòbils! Evita el rebot */
+  -webkit-font-smoothing: antialiased;
 }
 
-/* Scrollbar personalizada em tons de argila */
+/* Ocultar scrollbars que trenquen el disseny als mòbils */
 ::-webkit-scrollbar {
-  width: 6px;
-}
-::-webkit-scrollbar-track {
-  background: rgba(212, 93, 52, 0.05);
-  border-radius: 4px;
-}
-::-webkit-scrollbar-thumb {
-  background: #d45d34;
-  border-radius: 4px;
+  width: 0px;
+  background: transparent;
 }

@@ -1,21 +1,21 @@
+// components/Tour360.jsx
 import { useEffect, useRef, useState } from 'react';
-import ReactPlayer from 'react-player'; // O Player para o som ambiente
+import ReactPlayer from 'react-player';
 import 'aframe';
-import { Compass, Menu, X, RotateCcw, Volume2, Home, Maximize2, Map as MapIcon, Info, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Compass, Menu, ChevronLeft, ChevronRight } from 'lucide-react';
+import MenuConfiguracoes from './MenuConfiguracoes';
 import styles from './Tour360.module.css';
 
 export default function Tour360({ 
   fotoAtual, totalFotos, onNavegar, onVoltarMenu, onMudarTela,
   giroscopioAtivo, setGiroscopioAtivo,
-  somAmbienteAtivo, setSomAmbienteAtivo 
+  somAmbienteAtivo, setSomAmbienteAtivo,
+  volume, setVolume 
 }) {
   const videoRef = useRef(null);
-  const [opacidade, setOpacidade] = useState(0.72); // Inicia em 72% como no print
+  const [opacidade, setOpacidade] = useState(0.70);
   const [cameraAtiva, setCameraAtiva] = useState(false);
-  
-  // Novos estados para a UI
   const [menuAberto, setMenuAberto] = useState(false);
-  const [volume, setVolume] = useState(68); // Volume inicial do som ambiente
 
   useEffect(() => {
     let streamAtual = null;
@@ -56,31 +56,30 @@ export default function Tour360({
     };
   }, []);
 
-  const toggleFullScreen = () => {
-    if (!document.fullscreenElement) {
-      document.documentElement.requestFullscreen().catch(err => console.log(err));
-    } else {
-      document.exitFullscreen();
-    }
-  };
-
   const caminhoFoto = `${import.meta.env.BASE_URL}fotos360/foto${fotoAtual}.webp`;
 
   return (
     <div className={styles.tourContainer}>
       
-      {/* Player do YouTube Invisível para o Som Ambiente */}
-      <ReactPlayer
-        url="https://www.youtube.com/watch?v=MwlKHLDXqoE"
-        playing={somAmbienteAtivo}
-        volume={volume / 100} // ReactPlayer usa volume de 0 a 1
-        loop={true}
-        width="0"
-        height="0"
-        style={{ display: 'none' }}
-        config={{ youtube: { playerVars: { autoplay: 1 } } }}
-      />
-
+      {/* Container invisível do Player para não travar os controles no navegador */}
+      <div style={{ position: 'absolute', width: '0px', height: '0px', overflow: 'hidden', opacity: 0, pointerEvents: 'none' }}>
+        <ReactPlayer 
+          url="https://www.youtube.com/watch?v=MwlKHLDXqoE" 
+          playing={somAmbienteAtivo}
+          loop={true}
+          volume={volume / 100} 
+          config={{
+            youtube: {
+              playerVars: { 
+                autoplay: 1, 
+                controls: 0,
+                origin: window.location.origin 
+              }
+            }
+          }}
+        />
+      </div>
+      
       <video ref={videoRef} autoPlay playsInline muted className={styles.videoBackground} />
 
       {/* @ts-ignore */}
@@ -92,7 +91,6 @@ export default function Tour360({
       {/* @ts-ignore */}
       </a-scene>
 
-      {/* Top Bar - Header */}
       <div className={styles.topBar}>
         <div className={styles.glassBadge}>
           <Compass size={16} />
@@ -103,82 +101,20 @@ export default function Tour360({
         </button>
       </div>
 
-      {/* Menu Hamburger / Settings */}
       {menuAberto && (
-        <div className={styles.settingsCard}>
-          <div className={styles.settingsHeader}>
-            <span>Settings</span>
-            <X size={16} color="#a1a1a1" style={{cursor: 'pointer'}} onClick={() => setMenuAberto(false)} />
-          </div>
-
-          {/* Card 1: Giroscópio */}
-          <div className={styles.settingsGroup}>
-            <div className={styles.settingsRow} onClick={() => setGiroscopioAtivo(!giroscopioAtivo)}>
-              <div className={styles.settingsLabel}>
-                <RotateCcw size={18} color="#fff" />
-                <div className={styles.settingsText}>
-                  <span className={styles.settingsTitle}>Gyroscope</span>
-                  <span className={styles.settingsSubtitle}>Motion controls</span>
-                </div>
-              </div>
-              <div style={{width: 40, height: 24, background: giroscopioAtivo ? '#fff' : 'rgba(255,255,255,0.2)', borderRadius: 12, position: 'relative', transition: 'all 0.3s'}}>
-                <div style={{width: 20, height: 20, background: giroscopioAtivo ? '#000' : '#111', borderRadius: '50%', position: 'absolute', right: giroscopioAtivo ? 2 : 18, top: 2, transition: 'all 0.3s'}}></div>
-              </div>
-            </div>
-          </div>
-
-          {/* Card 2: Som Ambiente + Volume */}
-          <div className={styles.settingsGroup}>
-            <div className={styles.settingsRow} onClick={() => setSomAmbienteAtivo(!somAmbienteAtivo)}>
-              <div className={styles.settingsLabel}>
-                <Volume2 size={18} color="#fff" />
-                <div className={styles.settingsText}>
-                  <span className={styles.settingsTitle}>Ambient Sound</span>
-                  <span className={styles.settingsSubtitle}>Museum ambience</span>
-                </div>
-              </div>
-              <div style={{width: 40, height: 24, background: somAmbienteAtivo ? '#fff' : 'rgba(255,255,255,0.2)', borderRadius: 12, position: 'relative', transition: 'all 0.3s'}}>
-                <div style={{width: 20, height: 20, background: somAmbienteAtivo ? '#000' : '#111', borderRadius: '50%', position: 'absolute', right: somAmbienteAtivo ? 2 : 18, top: 2, transition: 'all 0.3s'}}></div>
-              </div>
-            </div>
-            
-            {somAmbienteAtivo && (
-              <div style={{ marginTop: '8px' }}>
-                <div className={styles.transpLabels} style={{ marginBottom: '8px' }}>
-                  <span>Volume</span>
-                  <span>{volume}%</span>
-                </div>
-                <input type="range" min="0" max="100" value={volume} onChange={(e) => setVolume(e.target.value)} className={styles.slider} />
-              </div>
-            )}
-          </div>
-
-          <div className={styles.settingsButtons}>
-            {/* Botão Home */}
-            <button className={styles.btnSecondary} onClick={() => { onVoltarMenu(); setMenuAberto(false); }}>
-              <Home size={16} /> Home
-            </button>
-            
-            {/* Botão Tela Cheia */}
-            <button className={styles.btnSecondary} onClick={() => { toggleFullScreen(); setMenuAberto(false); }}>
-              <Maximize2 size={16} /> Full
-            </button>
-
-            {/* 👇 NOVOS BOTÕES ADICIONADOS 👇 */}
-            {/* Botão Mapa */}
-            <button className={styles.btnSecondary} onClick={() => { onMudarTela('mapa'); setMenuAberto(false); }}>
-              <MapIcon size={16} /> Mapa
-            </button>
-            
-            {/* Botão Sobre */}
-            <button className={styles.btnSecondary} onClick={() => { onMudarTela('sobre'); setMenuAberto(false); }}>
-              <Info size={16} /> Sobre
-            </button>
-          </div>
-        </div>
+        <MenuConfiguracoes 
+          onFechar={() => setMenuAberto(false)}
+          giroscopioAtivo={giroscopioAtivo}
+          setGiroscopioAtivo={setGiroscopioAtivo}
+          somAmbienteAtivo={somAmbienteAtivo}
+          setSomAmbienteAtivo={setSomAmbienteAtivo}
+          volume={volume}
+          setVolume={setVolume}
+          onMudarTela={onMudarTela}
+          telaAtual="tour"
+        />
       )}
 
-      {/* 👇 NOVOS BOTÕES DE NAVEGAÇÃO LATERAL 👇 */}
       <button 
         onClick={() => onNavegar('anterior')} 
         disabled={fotoAtual === 1}
@@ -195,9 +131,7 @@ export default function Tour360({
         <ChevronRight size={24} />
       </button>
 
-      {/* Container Fixo na parte inferior - Apenas Transparência */}
       <div className={styles.bottomContainer}>
-        {/* Card de Transparência */}
         <div className={styles.transparencyCard}>
           <div className={styles.transpHeader}>
             <span className={styles.transpTitle}>Transparência</span>
@@ -216,13 +150,11 @@ export default function Tour360({
             <span>100%</span>
           </div>
         </div>
-        {/* Removido o .bottomNav antigo */}
       </div>
 
       {!cameraAtiva && (
         <div className={styles.cameraAviso}>Iniciando câmera...</div>
       )}
-
     </div>
   );
 }

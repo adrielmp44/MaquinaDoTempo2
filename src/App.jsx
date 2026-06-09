@@ -1,3 +1,4 @@
+// App.jsx
 import { useState } from 'react';
 import MenuPrincipal from './components/MenuPrincipal';
 import Mapa from './components/Mapa';
@@ -10,9 +11,10 @@ export default function App() {
   const [fotoAtual, setFotoAtual] = useState(1);
   const totalFotos = 10;
 
-  // ESTADOS GLOBAIS DE CONFIGURAÇÃO
+  // ESTADOS GLOBAIS
   const [giroscopioAtivo, setGiroscopioAtivo] = useState(true);
   const [somAmbienteAtivo, setSomAmbienteAtivo] = useState(false);
+  const [volume, setVolume] = useState(80); // Novo estado de volume
 
   const navegarFoto = (direcao) => {
     if (direcao === 'proxima' && fotoAtual < totalFotos) {
@@ -42,11 +44,17 @@ export default function App() {
           setGiroscopioAtivo={setGiroscopioAtivo}
           somAmbienteAtivo={somAmbienteAtivo}
           setSomAmbienteAtivo={setSomAmbienteAtivo}
+          volume={volume}
+          setVolume={setVolume}
         />
       )}
 
       {telaAtual === 'mapa' && (
-        <Mapa totalFotos={totalFotos} onSelecionarPonto={irParaFotoDoMapa} onVoltar={() => setTelaAtual('menu')} />
+        <Mapa 
+          totalFotos={totalFotos} 
+          onSelecionarPonto={irParaFotoDoMapa} 
+          onVoltar={() => setTelaAtual('menu')} 
+        />
       )}
 
       {telaAtual === 'sobre' && (
@@ -62,7 +70,9 @@ export default function App() {
           giroscopioAtivo={giroscopioAtivo}
           setGiroscopioAtivo={setGiroscopioAtivo}
           somAmbienteAtivo={somAmbienteAtivo}        
-          setSomAmbienteAtivo={setSomAmbienteAtivo}   
+          setSomAmbienteAtivo={setSomAmbienteAtivo}
+          volume={volume}
+          setVolume={setVolume}   
           onMudarTela={setTelaAtual}                 
         />
       )}

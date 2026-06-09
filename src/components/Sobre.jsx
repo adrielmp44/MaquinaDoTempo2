@@ -1,4 +1,4 @@
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, ExternalLink } from 'lucide-react';
 import styles from './Sobre.module.css';
 
 export default function Sobre({ onVoltar }) {
@@ -17,8 +17,22 @@ export default function Sobre({ onVoltar }) {
         </div>
 
         <div className={styles.card}>
-          <p className={styles.label}>Desenvolvido por</p>
+          <p className={styles.label}>Desenvolvedor e Artista Técnico</p>
           <h2 className={styles.username}>@adriel.3d</h2>
+          
+          <p className={styles.description}>
+            Trabalho de Conclusão de Curso em Design Digital<br/>
+            Universidade Federal do Ceará (UFC) - Campus Quixadá
+          </p>
+
+          <a 
+            href="https://docs.google.com/forms/d/e/1FAIpQLSeLPbu9HbHHHKpuEGlKmKNkmlSnIB6grvz2pKd-c_apcfdQmQ/viewform?usp=publish-editor" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className={styles.formButton}
+          >
+            Avaliar Projeto <ExternalLink size={18} />
+          </a>
         </div>
       </div>
     </div>

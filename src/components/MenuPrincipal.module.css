@@ -2,32 +2,27 @@
   position: relative;
   width: 100vw;
   height: 100vh;
-  background-color: #000; /* Fundo preto puro para carregar mais rápido */
+  background-color: #000;
   color: #fafafa;
   overflow: hidden;
   font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
 }
 
-/* 👇 NOVO CONTAINER PARA A CENA A-FRAME COM BLUR 👇 */
 .aframeBackgroundContainer {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
   z-index: 0;
-  /* 👇 AQUI ESTÁ O DESFOQUE (BLUR) 👇 */
   filter: blur(12px); 
-  /* Leve zoom para o blur não criar bordas brancas/transparentes */
   transform: scale(1.05); 
 }
 
-/* Garante que o A-Frame ocupe todo o espaço */
 .scene3d {
   width: 100%;
   height: 100%;
 }
 
-/* Sombras para dar leitura aos textos */
 .gradientTop {
   position: absolute;
   inset: 0;
@@ -44,7 +39,6 @@
   pointer-events: none;
 }
 
-/* Topo (Logo e Menu) */
 .topBar {
   position: absolute;
   top: 0;
@@ -91,7 +85,6 @@
   background: rgba(255, 255, 255, 0.1);
 }
 
-/* Modal de Configurações */
 .settingsCard {
   position: absolute;
   top: 85px;
@@ -137,7 +130,6 @@
   font-weight: 500;
 }
 
-/* Ícone central pulsante */
 .centerPulse {
   position: absolute;
   top: 50%;
@@ -171,10 +163,9 @@
   color: rgba(255, 255, 255, 0.7);
 }
 
-/* Conteúdo Inferior (Textos e Botões) */
 .bottomContent {
   position: absolute;
-  bottom: 110px;
+  bottom: 40px; 
   left: 0;
   right: 0;
   padding: 0 32px;
