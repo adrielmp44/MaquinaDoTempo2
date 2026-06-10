@@ -40,7 +40,7 @@ export default function MenuPrincipal({
         </button>
       </div>
 
-      {menuAberto && (
+          {menuAberto && (
         <MenuConfiguracoes 
           onFechar={() => setMenuAberto(false)}
           giroscopioAtivo={giroscopioAtivo}
@@ -54,8 +54,18 @@ export default function MenuPrincipal({
         />
       )}
 
-      <div className={styles.centerPulse}>
-        <div className={styles.pulseRing}><div className={styles.pulseCore}><Move size={32} /></div></div>
+      {/* Alterado: Adicionado onClick, cursor pointer e title para acessibilidade */}
+      <div 
+        className={styles.centerPulse} 
+        onClick={onIniciarTour} 
+        style={{ cursor: 'pointer' }}
+        title="Começar o Tour"
+      >
+        <div className={styles.pulseRing}>
+          <div className={styles.pulseCore}>
+            <Move size={32} />
+          </div>
+        </div>
       </div>
 
       <div className={styles.bottomContent}>

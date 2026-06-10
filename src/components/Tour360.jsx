@@ -4,6 +4,7 @@ import ReactPlayer from 'react-player';
 import 'aframe';
 import { Compass, Menu, ChevronLeft, ChevronRight } from 'lucide-react';
 import MenuConfiguracoes from './MenuConfiguracoes';
+import HotspotsNavegacao from './HotspotsNavegacao';
 import styles from './Tour360.module.css';
 
 export default function Tour360({ 
@@ -16,6 +17,9 @@ export default function Tour360({
   const [opacidade, setOpacidade] = useState(0.70);
   const [cameraAtiva, setCameraAtiva] = useState(false);
   const [menuAberto, setMenuAberto] = useState(false);
+  
+  // Estado para controlar o efeito visual de transição suave
+  const [emTransicao, setEmTransicao] = useState(false);
 
   useEffect(() => {
     let streamAtual = null;
@@ -56,7 +60,25 @@ export default function Tour360({
     };
   }, []);
 
+  const irParaPontoComTransicao = (fotoDestino) => {
+    if (emTransicao) return;
+    
+    // Inicia o efeito fade out (escurece a visão do usuário)
+    setEmTransicao(true);
+    
+    setTimeout(() => {
+      // Executa a navegação real mudando a imagem de fundo
+      onNavegar('irPara', fotoDestino); 
+      
+      setTimeout(() => {
+        // Finaliza com o efeito fade in (clareia a visão na nova foto)
+        setEmTransicao(false);
+      }, 300);
+    }, 400);
+  };
+
   const caminhoFoto = `${import.meta.env.BASE_URL}fotos360/foto${fotoAtual}.webp`;
+  const caminhoSeta = `${import.meta.env.BASE_URL}assets/seta.png`;
 
   return (
     <div className={styles.tourContainer}>
@@ -83,11 +105,38 @@ export default function Tour360({
       <video ref={videoRef} autoPlay playsInline muted className={styles.videoBackground} />
 
       {/* @ts-ignore */}
-      <a-scene embedded renderer="alpha: true; colorManagement: true;" vr-mode-ui="enabled: false" className={styles.scene3d}>
+      <a-scene 
+        embedded 
+        renderer="alpha: true; colorManagement: true;" 
+        vr-mode-ui="enabled: false" 
+        className={styles.scene3d}
+        cursor="rayOrigin: mouse; fuse: false"
+        raycaster="objects: .clicavel"
+      >
+        {/* @ts-ignore */}
+        <a-assets>
+          <img id="icone-seta" src={caminhoSeta} crossOrigin="anonymous" />
+        {/* @ts-ignore */}
+        </a-assets>
+
         {/* @ts-ignore */}
         <a-sky src={caminhoFoto} rotation="0 -90 0" material={`opacity: ${opacidade}; transparent: true`}></a-sky>
+        
+        {/* Renderização condicional dos Hotspots */}
+        <HotspotsNavegacao fotoAtual={fotoAtual} onClicarPonto={irParaPontoComTransicao} />
+
         {/* @ts-ignore */}
-        <a-entity camera look-controls={`enabled: ${giroscopioAtivo}; magicWindowTrackingEnabled: ${giroscopioAtivo}`}></a-entity>
+        <a-entity camera look-controls={`enabled: ${giroscopioAtivo}; magicWindowTrackingEnabled: ${giroscopioAtivo}`}>
+          {/* Esfera preta interna invertida para simular o piscar dos olhos na troca de ambiente */}
+          {/* @ts-ignore */}
+          <a-sphere 
+            radius="0.5" 
+            color="#000" 
+            material={`transparent: true; opacity: ${emTransicao ? 1 : 0}; side: back`}
+            animation={`property: material.opacity; to: ${emTransicao ? 1 : 0}; dur: 300; easing: easeInOutQuad`}
+          ></a-sphere>
+        {/* @ts-ignore */}
+        </a-entity>
       {/* @ts-ignore */}
       </a-scene>
 

@@ -14,10 +14,12 @@ export default function App() {
   // ESTADOS GLOBAIS
   const [giroscopioAtivo, setGiroscopioAtivo] = useState(true);
   const [somAmbienteAtivo, setSomAmbienteAtivo] = useState(false);
-  const [volume, setVolume] = useState(80); // Novo estado de volume
+  const [volume, setVolume] = useState(80); 
 
-  const navegarFoto = (direcao) => {
-    if (direcao === 'proxima' && fotoAtual < totalFotos) {
+  const navegarFoto = (direcao, destinoExato = null) => {
+    if (direcao === 'irPara' && destinoExato !== null) {
+      setFotoAtual(destinoExato);
+    } else if (direcao === 'proxima' && fotoAtual < totalFotos) {
       setFotoAtual(fotoAtual + 1);
     } else if (direcao === 'anterior' && fotoAtual > 1) {
       setFotoAtual(fotoAtual - 1);
