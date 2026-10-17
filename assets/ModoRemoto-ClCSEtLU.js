@@ -1,0 +1,1 @@
+import{t as e}from"./VisualizacaoPonto-BFWdDlbq.js";import{a as t}from"./index-DPZotup9.js";var n=t();function r(t){return(0,n.jsx)(e,{...t,modo:`remoto`})}export{r as default};
