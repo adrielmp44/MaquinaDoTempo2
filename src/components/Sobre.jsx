@@ -3,7 +3,7 @@ import { ArrowLeft, ExternalLink } from 'lucide-react';
 import { Button, IconButton, Logo } from '../design-system/components/mt-components';
 import styles from './Telas.module.css';
 
-const FORMULARIO = 'https://docs.google.com/forms/d/e/1FAIpQLSeLPbu9HbHHHKpuEGlKmKNkmlSnIB6grvz2pKd-c_apcfdQmQ/viewform';
+const FORMULARIO = 'https://docs.google.com/forms/d/e/1FAIpQLSfpzKd42Pg9V_GgURHFcrDZ9G-GCQdbIT7DEu9FUFf9JSubkQ/viewform';
 
 export default function Sobre({ onVoltar }) {
   return (

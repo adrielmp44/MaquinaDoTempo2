@@ -1,9 +1,8 @@
 // Dados dos pontos da Máquina do Tempo (Quadro "Dados que descrevem cada ponto" do TCC).
-// Para corrigir um texto, uma posição ou um alinhamento, altere só este arquivo.
+// Para corrigir uma posição, uma data ou um alinhamento, altere só este arquivo.
 //
 // Campos:
 //   id, nome          número e nome exibido
-//   descricao         texto curto sobre o que se vê do ponto (duas ou três frases)
 //   posicaoMapa       posição do marcador sobre a imagem do mapa, em porcentagem
 //   fotoChuva/Seca    arquivos em public/fotos360/
 //   dataChuva/Seca    datas das capturas (AAAA-MM-DD)
@@ -21,13 +20,10 @@
 
 import { CURIOSIDADES } from './curiosidades';
 
-const TEXTO_PENDENTE = 'Texto deste ponto ainda não escrito.';
-
 export const PONTOS = [
   {
     id: 1,
     nome: 'Ponto 1',
-    descricao: TEXTO_PENDENTE,
     posicaoMapa: { top: '41.5%', left: '77%' },
     fotoChuva: 'ponto-01-chuva.webp',
     fotoSeca: 'ponto-01-seca.webp',
@@ -44,7 +40,6 @@ export const PONTOS = [
   {
     id: 2,
     nome: 'Ponto 2',
-    descricao: TEXTO_PENDENTE,
     posicaoMapa: { top: '41%', left: '67%' },
     fotoChuva: 'ponto-02-chuva.webp',
     fotoSeca: 'ponto-02-seca.webp',
@@ -61,7 +56,6 @@ export const PONTOS = [
   {
     id: 3,
     nome: 'Ponto 3',
-    descricao: TEXTO_PENDENTE,
     posicaoMapa: { top: '40%', left: '61%' },
     fotoChuva: 'ponto-03-chuva.webp',
     fotoSeca: 'ponto-03-seca.webp',
@@ -78,7 +72,6 @@ export const PONTOS = [
   {
     id: 4,
     nome: 'Ponto 4',
-    descricao: TEXTO_PENDENTE,
     posicaoMapa: { top: '33%', left: '57%' },
     fotoChuva: 'ponto-04-chuva.webp',
     fotoSeca: 'ponto-04-seca.webp',
@@ -95,7 +88,6 @@ export const PONTOS = [
   {
     id: 5,
     nome: 'Ponto 5',
-    descricao: TEXTO_PENDENTE,
     posicaoMapa: { top: '25%', left: '55%' },
     fotoChuva: 'ponto-05-chuva.webp',
     fotoSeca: 'ponto-05-seca.webp',
@@ -112,7 +104,6 @@ export const PONTOS = [
   {
     id: 6,
     nome: 'Ponto 6',
-    descricao: TEXTO_PENDENTE,
     posicaoMapa: { top: '16%', left: '55%' },
     fotoChuva: 'ponto-06-chuva.webp',
     fotoSeca: 'ponto-06-seca.webp',
@@ -129,7 +120,6 @@ export const PONTOS = [
   {
     id: 7,
     nome: 'Ponto 7',
-    descricao: TEXTO_PENDENTE,
     posicaoMapa: { top: '13%', left: '60%' },
     fotoChuva: 'ponto-07-chuva.webp',
     fotoSeca: 'ponto-07-seca.webp',
@@ -146,7 +136,6 @@ export const PONTOS = [
   {
     id: 8,
     nome: 'Ponto 8',
-    descricao: TEXTO_PENDENTE,
     posicaoMapa: { top: '10%', left: '68%' },
     fotoChuva: 'ponto-08-chuva.webp',
     fotoSeca: 'pon-to-08-seca.webp',

@@ -116,7 +116,7 @@ public/
 
 ### Onde mudar o conteúdo
 
-- **Pontos:** tudo fica em `src/data/pontos.js`: texto, posição no mapa, datas, alinhamento e vizinhos. Para acrescentar um ponto ou corrigir um texto, basta editar esse arquivo.
+- **Pontos:** tudo fica em `src/data/pontos.js`: nome, posição no mapa, datas, alinhamento e vizinhos. Para acrescentar um ponto ou corrigir uma posição, basta editar esse arquivo.
 - **Fotos:** em `public/fotos360/`, com o nome `ponto-NN-chuva.webp` e `ponto-NN-seca.webp`.
 - **Curiosidades:** em `src/data/curiosidades.js`, um texto para a chuva e outro para a seca em cada ponto, com a fonte.
 
