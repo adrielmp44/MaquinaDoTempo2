@@ -1,40 +1,46 @@
+// Sobre: créditos do projeto e link para o formulário de avaliação.
 import { ArrowLeft, ExternalLink } from 'lucide-react';
-import styles from './Sobre.module.css';
+import { Button, IconButton, Logo } from '../design-system/components/mt-components';
+import styles from './Telas.module.css';
+
+const FORMULARIO = 'https://docs.google.com/forms/d/e/1FAIpQLSeLPbu9HbHHHKpuEGlKmKNkmlSnIB6grvz2pKd-c_apcfdQmQ/viewform';
 
 export default function Sobre({ onVoltar }) {
-  const caminhoFundo = `${import.meta.env.BASE_URL}fotos360/foto1.webp`;
-
   return (
-    <div className={styles.wrapper}>
-      <img src={caminhoFundo} alt="" className={styles.bgImage} />
-
-      <div className={styles.container}>
-        <div className={styles.header}>
-          <button onClick={onVoltar} className={styles.iconButton}>
-            <ArrowLeft size={22} />
-          </button>
-          <div style={{width: 44}}></div>
+    <main className={styles.tela}>
+      <div className={styles.conteudo}>
+        <div className={styles.cabecalho}>
+          <IconButton variant="solid" label="Voltar ao início" onClick={onVoltar}><ArrowLeft /></IconButton>
+          <h1 className={styles.tituloTela}>Sobre</h1>
         </div>
 
-        <div className={styles.card}>
-          <p className={styles.label}>Desenvolvedor e Artista Técnico</p>
-          <h2 className={styles.username}>@adriel.3d</h2>
-          
-          <p className={styles.description}>
-            Trabalho de Conclusão de Curso em Design Digital<br/>
-            Universidade Federal do Ceará (UFC) - Campus Quixadá
-          </p>
+        <Logo variant="stacked" size={72} />
 
-          <a 
-            href="https://docs.google.com/forms/d/e/1FAIpQLSeLPbu9HbHHHKpuEGlKmKNkmlSnIB6grvz2pKd-c_apcfdQmQ/viewform?usp=publish-editor" 
-            target="_blank" 
-            rel="noopener noreferrer"
-            className={styles.formButton}
-          >
-            Avaliar Projeto <ExternalLink size={18} />
-          </a>
+        <section className={styles.cartao}>
+          <h2>O projeto</h2>
+          <p className={styles.textoMenor}>
+            A Máquina do Tempo mostra a paisagem do Açude Cedro, em Quixadá (CE), nos períodos chuvoso e seco.
+            No local, a foto do outro período aparece sobre a imagem da câmera. De longe, dá para girar as fotos com o dedo.
+          </p>
+          <p className={styles.legenda}>
+            Fotografias em 360° feitas com uma Ricoh Theta Z1 em maio e outubro de 2026, sempre na mesma posição.
+          </p>
+        </section>
+
+        <section className={styles.cartao}>
+          <h2>Autoria</h2>
+          <p className={styles.textoMenor}>
+            Trabalho de Conclusão de Curso de Adriel (@adriel.3d), Design Digital, Universidade Federal do Ceará, Campus Quixadá.
+          </p>
+          <p className={styles.legenda}>Orientação: Prof. Dr. João Vilnei de Oliveira Filho.</p>
+        </section>
+
+        <div className={styles.acoes}>
+          <Button size="lg" block iconEnd={<ExternalLink />} onClick={() => window.open(FORMULARIO, '_blank', 'noopener')}>
+            Avaliar o projeto
+          </Button>
         </div>
       </div>
-    </div>
+    </main>
   );
 }

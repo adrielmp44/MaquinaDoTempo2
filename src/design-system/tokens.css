@@ -1,0 +1,68 @@
+/* Máquina do Tempo — tokens (gerado de tokens.json). Tema claro é o padrão; data-theme="dark" no <html> ativa o escuro. */
+:root, [data-theme="light"] {
+  --bg: #f6f3ef;
+  --surface: #ffffff;
+  --surface-glass: rgba(255, 255, 255, 0.86);
+  --ink: #1a1714;
+  --ink-muted: #5e5650;
+  --line: #e3dcd3;
+  --hud-line: #1a1714;
+  --focus-ring: #1a1714;
+  --on-accent: #ffffff;
+  --sol-100: #ffe9da;
+  --sol-300: #ffb321;
+  --sol-500: #ff6a13;
+  --sol-600: #e8440f;
+  --sol-700: #c2410c;
+  --sol-800: #9a3412;
+  --sol-text: #c2410c;
+  --agua-100: #d6eeec;
+  --agua-500: #1f9a94;
+  --agua-700: #0e6a6a;
+  --agua-text: #0e6a6a;
+  --erro: #b3261e;
+  --scrim: rgba(26, 23, 20, 0.45);
+  --shadow-panel: 0 8px 24px rgba(26, 23, 20, 0.12);
+  --shadow-float: 0 16px 40px rgba(26, 23, 20, 0.18);
+  color-scheme: light;
+}
+[data-theme="dark"] {
+  --bg: #141210;
+  --surface: #1f1c19;
+  --surface-glass: rgba(31, 28, 25, 0.84);
+  --ink: #f6f1ea;
+  --ink-muted: #b8aea4;
+  --line: #3a3530;
+  --hud-line: #f6f1ea;
+  --focus-ring: #ffb321;
+  --sol-100: #3d2416;
+  --sol-text: #ff8a4c;
+  --agua-100: #12302f;
+  --agua-text: #5cc8c0;
+  --erro: #ff8a80;
+  --shadow-panel: 0 8px 24px rgba(0, 0, 0, 0.45);
+  --shadow-float: 0 16px 40px rgba(0, 0, 0, 0.55);
+  color-scheme: dark;
+}
+:root {
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 64px;
+  --radius-xs: 4px;
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 24px;
+  --radius-pill: 999px;
+  --target-min: 48px;
+  --icon-md: 20px;
+  --icon-lg: 24px;
+  --hud-corner: 8px;
+  --font-display: "Unbounded", "Arial Black", system-ui, sans-serif;
+  --font-sans: "Atkinson Hyperlegible", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+}

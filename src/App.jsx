@@ -1,83 +1,102 @@
-// App.jsx
-import { useState } from 'react';
-import MenuPrincipal from './components/MenuPrincipal';
+// App.jsx: guarda o estado compartilhado e decide qual tela exibir (RF01, RF09).
+import { lazy, Suspense, useCallback, useState } from 'react';
+import TelaInicial from './components/TelaInicial';
+import TelaPermissoes from './components/TelaPermissoes';
+import CameraIndisponivel from './components/CameraIndisponivel';
 import Mapa from './components/Mapa';
 import Sobre from './components/Sobre';
-import Tour360 from './components/Tour360';
-import styles from './App.module.css';
+import { ENTRADA_QR, periodoInicial } from './lib/util';
+import { PONTOS } from './data/pontos';
+
+// A cena 360° (A-Frame) é o maior pedaço do código: só é baixada ao abrir um ponto,
+// para a tela inicial abrir rápido pelo código QR.
+const ModoPresencial = lazy(() => import('./components/ModoPresencial'));
+const ModoRemoto = lazy(() => import('./components/ModoRemoto'));
+
+const Carregando = () => (
+  <div style={{ height: '100dvh', display: 'grid', placeItems: 'center', background: '#141210', color: '#f6f1ea' }} role="status">
+    Abrindo o ponto…
+  </div>
+);
 
 export default function App() {
-  const [telaAtual, setTelaAtual] = useState('menu');
-  const [fotoAtual, setFotoAtual] = useState(1);
-  const totalFotos = 10;
+  // Pelo código QR do banner, o visitante entra direto no pedido de permissões.
+  const [tela, setTela] = useState(ENTRADA_QR ? 'permissoes' : 'inicio');
+  const [modo, setModo] = useState(ENTRADA_QR ? 'presencial' : 'remoto');
+  const [pontoId, setPontoId] = useState(PONTOS[0].id);
+  const [periodo, setPeriodo] = useState('chuva');
+  const [giroscopio, setGiroscopio] = useState(true);
+  const [mostrarCuriosidades, setMostrarCuriosidades] = useState(true);
+  // Se o mapa foi aberto de dentro de um ponto, "voltar" leva de volta a ele.
+  const [mapaVeioDoPonto, setMapaVeioDoPonto] = useState(false);
 
-  // ESTADOS GLOBAIS
-  const [giroscopioAtivo, setGiroscopioAtivo] = useState(true);
-  const [somAmbienteAtivo, setSomAmbienteAtivo] = useState(false);
-  const [volume, setVolume] = useState(80); 
+  const escolherModo = useCallback((novoModo) => {
+    setModo(novoModo);
+    setTela(novoModo === 'presencial' ? 'permissoes' : 'mapa');
+  }, []);
 
-  const navegarFoto = (direcao, destinoExato = null) => {
-    if (direcao === 'irPara' && destinoExato !== null) {
-      setFotoAtual(destinoExato);
-    } else if (direcao === 'proxima' && fotoAtual < totalFotos) {
-      setFotoAtual(fotoAtual + 1);
-    } else if (direcao === 'anterior' && fotoAtual > 1) {
-      setFotoAtual(fotoAtual - 1);
-    }
+  const abrirPonto = useCallback((id) => {
+    // Reabrir o mesmo ponto pelo mapa mantém o período que estava na tela.
+    if (id !== pontoId || !mapaVeioDoPonto) setPeriodo(periodoInicial(modo));
+    setPontoId(id);
+    setTela('ponto');
+  }, [modo, pontoId, mapaVeioDoPonto]);
+
+  const irPara = useCallback((destino) => {
+    // A tela de mapa vinda do início, sem escolha de modo, abre no modo remoto.
+    if (destino === 'mapa' && tela === 'inicio') setModo('remoto');
+    if (destino === 'mapa') setMapaVeioDoPonto(tela === 'ponto');
+    setTela(destino);
+  }, [tela]);
+
+  const propsPonto = {
+    pontoId,
+    periodo,
+    setPeriodo,
+    giroscopio,
+    setGiroscopio,
+    mostrarCuriosidades,
+    setMostrarCuriosidades,
+    onTrocarPonto: setPontoId,
+    onIrPara: irPara,
   };
 
-  const irParaFotoDoMapa = (numeroFoto) => {
-    setFotoAtual(numeroFoto);
-    setTelaAtual('tour');
-  };
-
-  const iniciarTourDoZero = () => {
-    setFotoAtual(1);
-    setTelaAtual('tour');
-  };
-
-  return (
-    <div className={styles.appContainer}>
-      {telaAtual === 'menu' && (
-        <MenuPrincipal 
-          onMudarTela={setTelaAtual} 
-          onIniciarTour={iniciarTourDoZero} 
-          giroscopioAtivo={giroscopioAtivo}
-          setGiroscopioAtivo={setGiroscopioAtivo}
-          somAmbienteAtivo={somAmbienteAtivo}
-          setSomAmbienteAtivo={setSomAmbienteAtivo}
-          volume={volume}
-          setVolume={setVolume}
+  switch (tela) {
+    case 'permissoes':
+      return (
+        <TelaPermissoes
+          onPermitido={() => { setModo('presencial'); setTela('mapa'); }}
+          onNegado={() => setTela('semCamera')}
+          onSemCamera={() => { setModo('remoto'); setTela('mapa'); }}
+          onVoltar={() => setTela('inicio')}
         />
-      )}
-
-      {telaAtual === 'mapa' && (
-        <Mapa 
-          totalFotos={totalFotos} 
-          onSelecionarPonto={irParaFotoDoMapa} 
-          onVoltar={() => setTelaAtual('menu')} 
+      );
+    case 'semCamera':
+      return (
+        <CameraIndisponivel
+          onModoRemoto={() => { setModo('remoto'); setTela('mapa'); }}
+          onTentarDeNovo={() => setTela('permissoes')}
         />
-      )}
-
-      {telaAtual === 'sobre' && (
-        <Sobre onVoltar={() => setTelaAtual('menu')} />
-      )}
-
-      {telaAtual === 'tour' && (
-        <Tour360 
-          fotoAtual={fotoAtual} 
-          totalFotos={totalFotos} 
-          onNavegar={navegarFoto} 
-          onVoltarMenu={() => setTelaAtual('menu')} 
-          giroscopioAtivo={giroscopioAtivo}
-          setGiroscopioAtivo={setGiroscopioAtivo}
-          somAmbienteAtivo={somAmbienteAtivo}        
-          setSomAmbienteAtivo={setSomAmbienteAtivo}
-          volume={volume}
-          setVolume={setVolume}   
-          onMudarTela={setTelaAtual}                 
+      );
+    case 'mapa':
+      return (
+        <Mapa
+          modo={modo}
+          pontoAtual={pontoId}
+          voltarAoPonto={mapaVeioDoPonto}
+          onSelecionarPonto={abrirPonto}
+          onVoltar={() => setTela(mapaVeioDoPonto ? 'ponto' : 'inicio')}
         />
-      )}
-    </div>
-  );
+      );
+    case 'ponto':
+      return (
+        <Suspense fallback={<Carregando />}>
+          {modo === 'presencial' ? <ModoPresencial {...propsPonto} /> : <ModoRemoto {...propsPonto} />}
+        </Suspense>
+      );
+    case 'sobre':
+      return <Sobre onVoltar={() => setTela('inicio')} />;
+    default:
+      return <TelaInicial onEscolherModo={escolherModo} onIrPara={irPara} />;
+  }
 }

@@ -104,7 +104,6 @@ export default function Tour360({
       
       <video ref={videoRef} autoPlay playsInline muted className={styles.videoBackground} />
 
-      {/* @ts-ignore */}
       <a-scene 
         embedded 
         renderer="alpha: true; colorManagement: true;" 
@@ -113,31 +112,24 @@ export default function Tour360({
         cursor="rayOrigin: mouse; fuse: false"
         raycaster="objects: .clicavel"
       >
-        {/* @ts-ignore */}
+
         <a-assets>
           <img id="icone-seta" src={caminhoSeta} crossOrigin="anonymous" />
-        {/* @ts-ignore */}
+
         </a-assets>
 
-        {/* @ts-ignore */}
         <a-sky src={caminhoFoto} rotation="0 -90 0" material={`opacity: ${opacidade}; transparent: true`}></a-sky>
-        
-        {/* Renderização condicional dos Hotspots */}
+
         <HotspotsNavegacao fotoAtual={fotoAtual} onClicarPonto={irParaPontoComTransicao} />
 
-        {/* @ts-ignore */}
         <a-entity camera look-controls={`enabled: ${giroscopioAtivo}; magicWindowTrackingEnabled: ${giroscopioAtivo}`}>
-          {/* Esfera preta interna invertida para simular o piscar dos olhos na troca de ambiente */}
-          {/* @ts-ignore */}
           <a-sphere 
             radius="0.5" 
             color="#000" 
             material={`transparent: true; opacity: ${emTransicao ? 1 : 0}; side: back`}
             animation={`property: material.opacity; to: ${emTransicao ? 1 : 0}; dur: 300; easing: easeInOutQuad`}
           ></a-sphere>
-        {/* @ts-ignore */}
         </a-entity>
-      {/* @ts-ignore */}
       </a-scene>
 
       <div className={styles.topBar}>

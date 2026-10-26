@@ -1,7 +1,7 @@
 {
-  "name": "maquinadotempo",
+  "name": "maquina-do-tempo",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -15,8 +15,7 @@
     "aframe": "^1.7.1",
     "lucide-react": "^1.17.0",
     "react": "^19.2.6",
-    "react-dom": "^19.2.6",
-    "react-player": "^3.4.0"
+    "react-dom": "^19.2.6"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",

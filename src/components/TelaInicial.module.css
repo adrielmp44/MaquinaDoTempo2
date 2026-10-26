@@ -1,0 +1,108 @@
+.tela {
+  position: relative;
+  width: 100%;
+  height: 100dvh;
+  overflow: hidden;
+  background: var(--bg);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* Capa: o mesmo ponto na chuva (esquerda) e na seca (direita), girando devagar */
+.capa { position: absolute; top: 0; left: 0; right: 0; height: 64dvh; overflow: hidden; }
+.camada {
+  position: absolute;
+  inset: 0;
+  background-size: auto 100%;
+  background-repeat: repeat-x;
+  animation: girar 140s linear infinite;
+}
+.camadaSeca { clip-path: inset(0 0 0 50%); }
+@keyframes girar {
+  from { background-position-x: 0; }
+  to { background-position-x: calc(-266.67 * 1dvh); } /* largura da capa: 64dvh × 2400/576 */
+}
+.divisoria {
+  position: absolute;
+  top: 0; bottom: 0; left: 50%;
+  width: 3px;
+  margin-left: -1.5px;
+  background: #fff;
+  box-shadow: 0 0 12px rgba(0, 0, 0, .25);
+}
+.divisoria::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 18px; height: 18px;
+  margin: -9px 0 0 -9px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: var(--shadow-panel);
+}
+.etiquetas {
+  position: absolute;
+  top: 50%;
+  left: 0; right: 0;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 var(--space-4);
+  transform: translateY(-50%);
+}
+
+.topo {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding: max(var(--space-4), env(safe-area-inset-top)) var(--space-4) 0;
+}
+.logoPill {
+  padding: var(--space-2) var(--space-4) var(--space-2) var(--space-2);
+  border-radius: var(--radius-pill);
+}
+
+.folha {
+  position: relative;
+  z-index: 2;
+  margin: 0 var(--space-3) max(var(--space-3), env(safe-area-inset-bottom));
+  padding: var(--space-5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+.rotulo { color: var(--ink-muted); }
+.titulo {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(32px, 9.5vw, 48px);
+  line-height: 1;
+  letter-spacing: -.02em;
+  text-transform: uppercase;
+}
+.texto { font-size: 18px; line-height: 28px; color: var(--ink-muted); }
+.acoes { display: flex; flex-direction: column; gap: var(--space-3); }
+.linha { display: flex; gap: var(--space-2); }
+.linha > * { flex: 1; }
+.calibrar { color: var(--erro); }
+
+@media (min-width: 720px) {
+  .folha { width: 440px; margin-left: var(--space-6); margin-bottom: var(--space-6); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .camada { animation: none; background-position-x: -30dvh; }
+}
+
+/* a foto some suavemente no fundo claro, atrás da folha */
+.capa::after {
+  content: '';
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  height: 30%;
+  background: linear-gradient(to bottom, rgba(246, 243, 239, 0), var(--bg));
+  pointer-events: none;
+}

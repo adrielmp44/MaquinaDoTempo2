@@ -1,94 +1,67 @@
-import { ArrowLeft } from 'lucide-react';
-import styles from './Mapa.module.css';
+// Mapa: exibe os pontos e abre o ponto escolhido no modo atual (RF02).
+import { useState } from 'react';
+import { ArrowLeft, Camera, Globe } from 'lucide-react';
+import { Button, IconButton, PointMarker, Tag } from '../design-system/components/mt-components';
+import { PONTOS, TOTAL_PONTOS } from '../data/pontos';
+import { caminhoPublico, MODO_CALIBRACAO } from '../lib/util';
+import styles from './Telas.module.css';
 
-// Coordenadas aproximadas baseadas no seu desenho (em porcentagem)
-// Para adicionar mais fotos depois, basta criar uma nova linha seguindo a ordem
-const coordenadasMapa = [
-  { id: 9, top: '4%', left: '69%' },
-  { id: 8, top: '10%', left: '68%' },
-  { id: 7, top: '13%', left: '60%' },
-  { id: 6, top: '16%', left: '55%' },
-  { id: 5, top: '25%', left: '55%' },
-  { id: 4, top: '33%', left: '57%' },
-  { id: 3, top: '40%', left: '61%' },
-  { id: 2, top: '41%', left: '67%' },
-  { id: 1, top: '41.5%', left: '77%' },
-];
+export default function Mapa({ modo, pontoAtual, voltarAoPonto, onSelecionarPonto, onVoltar }) {
+  const [marca, setMarca] = useState(null);
 
-export default function Mapa({ totalFotos, onSelecionarPonto, onVoltar }) {
-  // Mantemos o fundo borrado escuro para a UI em volta
-  const caminhoFundo = `${import.meta.env.BASE_URL}fotos360/foto1.webp`;
-  // Caminho da nova imagem do mapa
-  const caminhoMapa = `${import.meta.env.BASE_URL}mapa/imagemdomapa.png`;
+  // Calibração: toque no mapa mostra a posição em porcentagem para o pontos.js
+  function calibrar(e) {
+    if (!MODO_CALIBRACAO || e.target.tagName === 'BUTTON') return;
+    const r = e.currentTarget.getBoundingClientRect();
+    const top = (((e.clientY - r.top) / r.height) * 100).toFixed(1);
+    const left = (((e.clientX - r.left) / r.width) * 100).toFixed(1);
+    setMarca({ top: `${top}%`, left: `${left}%` });
+  }
 
   return (
-    <div className={styles.wrapper}>
-      <img src={caminhoFundo} alt="" className={styles.bgImage} />
-
-      <div className={styles.container} style={{ overflowY: 'auto', paddingBottom: '2rem' }}>
-        <div className={styles.header}>
-          <button onClick={onVoltar} className={styles.iconButton}>
-            <ArrowLeft size={22} />
-          </button>
-          <h2 className={styles.title}>Mapa</h2>
-          <div style={{width: 44}}></div> {/* Espaçador para centralizar o título */}
+    <main className={styles.tela}>
+      <div className={styles.conteudo}>
+        <div className={styles.cabecalho}>
+          <IconButton variant="solid" label={voltarAoPonto ? `Voltar ao ponto ${pontoAtual}` : 'Voltar ao início'} onClick={onVoltar}><ArrowLeft /></IconButton>
+          <h1 className={styles.tituloTela}>Mapa</h1>
+          {modo === 'presencial'
+            ? <Tag tone="seca" icon={<Camera />}>Com câmera</Tag>
+            : <Tag tone="chuva" icon={<Globe />}>À distância</Tag>}
         </div>
-        
-        {/* Container Relativo do Mapa */}
-        <div style={{
-          position: 'relative', 
-          width: '100%', 
-          maxWidth: '900px', 
-          margin: '0 auto',
-          borderRadius: '12px',
-          overflow: 'hidden',
-          boxShadow: '0 8px 32px rgba(0,0,0,0.5)',
-          backgroundColor: '#e8f0e0' // Fundo de fallback
-        }}>
-          
-          {/* Imagem Base do Mapa */}
-          <img 
-            src={caminhoMapa} 
-            alt="Mapa Interativo" 
-            style={{ width: '100%', height: 'auto', display: 'block', objectFit: 'contain' }} 
-          />
 
-          {/* Renderização dos Pontos Clicáveis */}
-          {coordenadasMapa.map((ponto) => (
-            <button
-              key={ponto.id}
-              onClick={() => onSelecionarPonto(ponto.id)}
-              style={{
-                position: 'absolute',
-                top: ponto.top,
-                left: ponto.left,
-                transform: 'translate(-50%, -50%)', // Faz o centro do botão ficar exatamente na coordenada
-                width: '32px',
-                height: '32px',
-                borderRadius: '50%',
-                backgroundColor: '#dc2626', // Vermelho para destacar como no seu desenho
-                color: '#fff',
-                border: '2px solid #fff',
-                fontWeight: 'bold',
-                fontSize: '14px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                cursor: 'pointer',
-                boxShadow: '0 2px 8px rgba(0,0,0,0.4)',
-                transition: 'transform 0.2s ease',
-                zIndex: 10
-              }}
-              // Efeito de hover diretamente no estilo (cresce levemente ao passar o mouse)
-              onMouseEnter={(e) => e.currentTarget.style.transform = 'translate(-50%, -50%) scale(1.15)'}
-              onMouseLeave={(e) => e.currentTarget.style.transform = 'translate(-50%, -50%) scale(1)'}
-              title={`Ir para o ponto ${ponto.id}`}
-            >
-              {ponto.id}
-            </button>
+        <p className={styles.textoMenor}>
+          Toque em um dos {TOTAL_PONTOS} pontos para ver como o lugar fica na chuva e na seca.
+        </p>
+
+        <div className={styles.mapaQuadro} onClick={calibrar}>
+          <img className={styles.mapaImagem} src={caminhoPublico('mapa/imagemdomapa.png')} alt="Mapa da área de visitação do Açude Cedro" />
+          {PONTOS.map((p) => (
+            <PointMarker
+              key={p.id}
+              number={p.id}
+              active={p.id === pontoAtual}
+              className={styles.marcador}
+              style={{ top: p.posicaoMapa.top, left: p.posicaoMapa.left }}
+              onClick={() => onSelecionarPonto(p.id)}
+            />
           ))}
+          {marca && <span className={styles.marcaCalibrar} style={marca} />}
         </div>
+
+        {MODO_CALIBRACAO && (
+          <div className={styles.calibracao}>
+            {marca ? `posicaoMapa: { top: '${marca.top}', left: '${marca.left}' }` : 'Calibração: toque no mapa para ver a posição.'}
+          </div>
+        )}
+
+        {voltarAoPonto && (
+          <Button variant="secondary" block icon={<ArrowLeft />} onClick={onVoltar}>
+            Voltar ao ponto {pontoAtual}
+          </Button>
+        )}
+
+        <p className={styles.legenda}>Fotografias feitas com câmera 360° em maio (chuva) e outubro (seca) de 2026.</p>
       </div>
-    </div>
+    </main>
   );
 }
